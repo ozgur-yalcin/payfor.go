@@ -143,7 +143,7 @@ func (api *API) Pay(ctx context.Context, req *Request) Response {
 }
 
 func (api *API) Refund(ctx context.Context, req *Request) Response {
-	req.TxnType = "Credit"
+	req.TxnType = "Refund"
 	req.SecureType = "NonSecure"
 	return api.Transaction(ctx, req)
 }
