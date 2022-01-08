@@ -45,7 +45,7 @@ type Request struct {
 	CardHolder interface{} `xml:"CardHolderName,omitempty"`
 	CardNumber interface{} `xml:"Pan,omitempty"`
 	CardExpiry interface{} `xml:"Expiry,omitempty"`
-	CardCvc    interface{} `xml:"Cvv2,omitempty"`
+	CardCode   interface{} `xml:"Cvv2,omitempty"`
 	OrderId    interface{} `xml:"OrderId,omitempty"`
 	OrgOrderId interface{} `xml:"OrgOrderId,omitempty"`
 	OkUrl      interface{} `xml:"OkUrl,omitempty"`
@@ -96,16 +96,20 @@ func (api *API) SetKey(key string) {
 	api.Key = key
 }
 
+func (request *Request) SetCardHolder(holder string) {
+	request.CardHolder = holder
+}
+
 func (request *Request) SetCardNumber(number string) {
 	request.CardNumber = number
 }
 
-func (request *Request) SetExpiry(month, year string) {
+func (request *Request) SetCardExpiry(month, year string) {
 	request.CardExpiry = month + year
 }
 
-func (request *Request) SetCvc(cvc string) {
-	request.CardCvc = cvc
+func (request *Request) SetCardCode(code string) {
+	request.CardCode = code
 }
 
 func (request *Request) SetAmount(total string) {
@@ -139,6 +143,9 @@ func (request *Request) SetLang(lang string) {
 func (api *API) Pay(ctx context.Context, req *Request) Response {
 	req.TxnType = "Auth"
 	req.SecureType = "NonSecure"
+	if req.MOTO == nil {
+		req.MOTO = "0"
+	}
 	return api.Transaction(ctx, req)
 }
 
