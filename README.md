@@ -1,12 +1,12 @@
-[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/qnbpay.go/blob/main/LICENSE.md)
-[![documentation](https://pkg.go.dev/badge/github.com/ozgur-soft/qnbpay.go)](https://pkg.go.dev/github.com/ozgur-soft/qnbpay.go/src)
+[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/payfor.go/blob/main/LICENSE.md)
+[![documentation](https://pkg.go.dev/badge/github.com/ozgur-soft/payfor.go)](https://pkg.go.dev/github.com/ozgur-soft/payfor.go/src)
 
-# Qnbpay.go
-Qnb Finansbank Virtual POS API with golang
+# Payfor.go
+QNB Finansbank (PayFor) POS API with golang
 
 # Installation
 ```bash
-go get github.com/ozgur-soft/qnbpay.go
+go get github.com/ozgur-soft/payfor.go
 ```
 
 # Sanalpos satış işlemi
@@ -18,33 +18,38 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	qnbpay "github.com/ozgur-soft/qnbpay.go/src"
+	payfor "github.com/ozgur-soft/payfor.go/src"
+)
+
+// Pos bilgileri
+const (
+	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"    // Kurum kodu
+	merchant = ""     // İşyeri numarası
+	username = ""     // Kullanıcı adı
+	password = ""     // Şifre
+	lang     = "TR"   // Dil
 )
 
 func main() {
-	api, req := qnbpay.Api("5", "MerchantID ", "Usercode", "Userpass")
-	// Test : "TEST" - Production "PROD" (zorunlu)
-	api.SetMode("TEST")
-	// Kart sahibi (zorunlu)
-	req.SetCardHolder("")
-	// Kart numarası (zorunlu)
-	req.SetCardNumber("4242424242424242")
-	// Son kullanma tarihi (Ay ve yılın son 2 hanesi) AA,YY (zorunlu)
-	req.SetCardExpiry("02", "20")
-	// Cvv2 kodu (kartın arka yüzündeki 3 haneli numara) (zorunlu)
-	req.SetCardCode("000")
-	// Satış tutarı (zorunlu)
-	req.SetAmount("1.00")
-	// Para birimi (zorunlu)
-	req.SetCurrency("TRY")
-	// Dil (zorunlu)
-	req.SetLang("TR")
+	api, req := payfor.Api(mbr, merchant, username, password)
+	api.SetMode(envmode)
+
+	req.SetCardHolder("")         // Kart sahibi (zorunlu)
+	req.SetCardNumber("")         // Kart numarası (zorunlu)
+	req.SetCardExpiry("02", "20") // Son kullanma tarihi - AA,YY (zorunlu)
+	req.SetCardCode("000")        // Kart arkasındaki 3 haneli numara (zorunlu)
+	req.SetAmount("1.00", "TRY")  // Satış tutarı ve para birimi (zorunlu)
+	req.SetLang(lang)
 
 	// Satış
 	ctx := context.Background()
-	res := api.Pay(ctx, req)
-	pretty, _ := xml.MarshalIndent(res, " ", " ")
-	fmt.Println(string(pretty))
+	if res, err := api.Auth(ctx, req); err == nil {
+		pretty, _ := xml.MarshalIndent(res, " ", " ")
+		fmt.Println(string(pretty))
+	} else {
+		fmt.Println(err)
+	}
 }
 ```
 
@@ -57,27 +62,35 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	qnbpay "github.com/ozgur-soft/qnbpay.go/src"
+	payfor "github.com/ozgur-soft/payfor.go/src"
+)
+
+// Pos bilgileri
+const (
+	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"    // Kurum kodu
+	merchant = ""     // İşyeri numarası
+	username = ""     // Kullanıcı adı
+	password = ""     // Şifre
+	lang     = "TR"   // Dil
 )
 
 func main() {
-	api, req := qnbpay.Api("5", "MerchantID ", "Usercode", "Userpass")
-	// Test : "TEST" - Production "PROD" (zorunlu)
-	api.SetMode("TEST")
-	// Sipariş numarası (zorunlu)
-	req.SetOrgOrderId("SYS_")
-	// İade tutarı (zorunlu)
-	req.SetAmount("1.00")
-	// Para birimi (zorunlu)
-	req.SetCurrency("TRY")
-	// Dil (zorunlu)
-	req.SetLang("TR")
+	api, req := payfor.Api(mbr, merchant, username, password)
+	api.SetMode(envmode)
+
+	req.SetOrgOrderId("SYS_")    // Sipariş numarası (zorunlu)
+	req.SetAmount("1.00", "TRY") // İade tutarı ve para birimi (zorunlu)
+	req.SetLang(lang)
 
 	// İade
 	ctx := context.Background()
-	res := api.Refund(ctx, req)
-	pretty, _ := xml.MarshalIndent(res, " ", " ")
-	fmt.Println(string(pretty))
+	if res, err := api.Refund(ctx, req); err == nil {
+		pretty, _ := xml.MarshalIndent(res, " ", " ")
+		fmt.Println(string(pretty))
+	} else {
+		fmt.Println(err)
+	}
 }
 ```
 
@@ -90,24 +103,34 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	qnbpay "github.com/ozgur-soft/qnbpay.go/src"
+	payfor "github.com/ozgur-soft/payfor.go/src"
+)
+
+// Pos bilgileri
+const (
+	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"    // Kurum kodu
+	merchant = ""     // İşyeri numarası
+	username = ""     // Kullanıcı adı
+	password = ""     // Şifre
+	lang     = "TR"   // Dil
 )
 
 func main() {
-	api, req := qnbpay.Api("5", "MerchantID ", "Usercode", "Userpass")
-	// Test : "TEST" - Production "PROD" (zorunlu)
-	api.SetMode("TEST")
-	// Sipariş numarası (zorunlu)
-	req.SetOrgOrderId("SYS_")
-	// Para birimi (zorunlu)
-	req.SetCurrency("TRY")
-	// Dil (zorunlu)
-	req.SetLang("TR")
+	api, req := payfor.Api(mbr, merchant, username, password)
+	api.SetMode(envmode)
+
+	req.SetOrgOrderId("SYS_") // Sipariş numarası (zorunlu)
+	req.SetCurrency("TRY")    // Para birimi (zorunlu)
+	req.SetLang(lang)
 
 	// İptal
 	ctx := context.Background()
-	res := api.Cancel(ctx, req)
-	pretty, _ := xml.MarshalIndent(res, " ", " ")
-	fmt.Println(string(pretty))
+	if res, err := api.Cancel(ctx, req); err == nil {
+		pretty, _ := xml.MarshalIndent(res, " ", " ")
+		fmt.Println(string(pretty))
+	} else {
+		fmt.Println(err)
+	}
 }
 ```
