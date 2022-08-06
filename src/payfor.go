@@ -135,6 +135,10 @@ func Api(mbr, merchant, username, password string) (*API, *Request) {
 	return api, request
 }
 
+func (api *API) SetStoreKey(key string) {
+	api.Key = key
+}
+
 func (api *API) SetMode(mode string) {
 	api.Mode = mode
 }
