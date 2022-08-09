@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-var EndPoints map[string]string = map[string]string{
+var EndPoints = map[string]string{
 	"TEST": "https://vpostest.qnbfinansbank.com/Gateway/XmlGate.aspx",
 	"PROD": "https://vpos.qnbfinansbank.com/Gateway/XmlGate.aspx",
 
@@ -22,7 +22,7 @@ var EndPoints map[string]string = map[string]string{
 	"PROD3D": "https://vpos.qnbfinansbank.com/Gateway/Default.aspx",
 }
 
-var Currencies map[string]string = map[string]string{
+var Currencies = map[string]string{
 	"TRY": "949",
 	"YTL": "949",
 	"TRL": "949",
