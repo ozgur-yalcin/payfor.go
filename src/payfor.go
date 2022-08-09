@@ -22,7 +22,7 @@ var EndPoints = map[string]string{
 	"PROD3D": "https://vpos.qnbfinansbank.com/Gateway/Default.aspx",
 }
 
-var Currencies = map[string]string{
+var CurrencyCode = map[string]string{
 	"TRY": "949",
 	"YTL": "949",
 	"TRL": "949",
@@ -161,11 +161,11 @@ func (request *Request) SetCardCode(code string) {
 
 func (request *Request) SetAmount(total, currency string) {
 	request.Amount = total
-	request.Currency = Currencies[currency]
+	request.Currency = CurrencyCode[currency]
 }
 
 func (request *Request) SetCurrency(currency string) {
-	request.Currency = Currencies[currency]
+	request.Currency = CurrencyCode[currency]
 }
 
 func (request *Request) SetInstallment(ins string) {
