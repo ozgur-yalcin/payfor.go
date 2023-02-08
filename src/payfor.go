@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -43,6 +44,7 @@ type Request struct {
 	RequestGuid     string   `xml:"RequestGuid,omitempty"`
 	MbrId           string   `xml:"MbrId,omitempty" form:"MbrId,omitempty"`
 	MerchantId      string   `xml:"MerchantId,omitempty" form:"MerchantId,omitempty"`
+	TerminalId      string   `xml:"TerminalId,omitempty"`
 	UserCode        string   `xml:"UserCode,omitempty" form:"UserCode,omitempty"`
 	UserPass        string   `xml:"UserPass,omitempty"`
 	OrgOrderId      string   `xml:"OrgOrderId,omitempty"`
@@ -73,8 +75,6 @@ type Response struct {
 	HostRefNum     string   `xml:"HostRefNum,omitempty"`
 	ProcReturnCode string   `xml:"ProcReturnCode,omitempty"`
 	Status3D       string   `xml:"3DStatus,omitempty"`
-	ResponseRnd    string   `xml:"ResponseRnd,omitempty"`
-	ResponseHash   string   `xml:"ResponseHash,omitempty"`
 	TxnResult      string   `xml:"TxnResult,omitempty"`
 	ErrMsg         string   `xml:"ErrMsg,omitempty"`
 }
@@ -273,10 +273,14 @@ func (api *API) Transaction(ctx context.Context, req *Request) (res Response, er
 	if err := decoder.Decode(&res); err != nil {
 		return res, err
 	}
-	switch res.ProcReturnCode {
-	case "00":
-		return res, nil
-	default:
+	if code, err := strconv.Atoi(res.ProcReturnCode); err == nil {
+		switch code {
+		case 0:
+			return res, nil
+		default:
+			return res, errors.New(res.ErrMsg)
+		}
+	} else {
 		return res, errors.New(res.ErrMsg)
 	}
 }
@@ -290,6 +294,7 @@ func (api *API) Transaction3D(ctx context.Context, req *Request) (res string, er
 	html = append(html, `<!DOCTYPE html>`)
 	html = append(html, `<html>`)
 	html = append(html, `<head>`)
+	html = append(html, `<meta http-equiv="Content-Type" content="text/html; charset=utf-8">`)
 	html = append(html, `<script type="text/javascript">function submitonload() {document.payment.submit();document.getElementById('button').remove();document.getElementById('body').insertAdjacentHTML("beforeend", "Lütfen bekleyiniz...");}</script>`)
 	html = append(html, `</head>`)
 	html = append(html, `<body onload="javascript:submitonload();" id="body" style="text-align:center;margin:10px;font-family:Arial;font-weight:bold;">`)
