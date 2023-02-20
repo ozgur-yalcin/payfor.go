@@ -6,7 +6,7 @@ QNB Finansbank (PayFor) POS API with golang
 
 # Installation
 ```bash
-go get github.com/ozgur-soft/payfor.go
+go get github.com/ozgur-yalcin/payfor.go
 ```
 
 # Satış
@@ -18,28 +18,28 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	payfor "github.com/ozgur-soft/payfor.go/src"
+	payfor "github.com/ozgur-yalcin/payfor.go/src"
 )
 
 // Pos bilgileri
 const (
-	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
-	mbr      = "5"    // Kurum kodu
-	merchant = ""     // İşyeri numarası
-	username = ""     // Kullanıcı adı
-	password = ""     // Şifre
-	lang     = "TR"   // Dil
+	envmode  = "TEST"                    // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"                       // Kurum kodu
+	merchant = "085300000009704"         // İşyeri numarası
+	username = "QNB_API_KULLANICI_3DPAY" // Kullanıcı adı
+	password = "UcBN0"                   // Şifre
+	lang     = "TR"                      // Dil
 )
 
 func main() {
 	api, req := payfor.Api(mbr, merchant, username, password)
 	api.SetMode(envmode)
 
-	req.SetCardHolder("")         // Kart sahibi (zorunlu)
-	req.SetCardNumber("")         // Kart numarası (zorunlu)
-	req.SetCardExpiry("02", "20") // Son kullanma tarihi - AA,YY (zorunlu)
-	req.SetCardCode("000")        // Kart arkasındaki 3 haneli numara (zorunlu)
-	req.SetAmount("1.00", "TRY")  // Satış tutarı ve para birimi (zorunlu)
+	req.SetCardHolder("")                 // Kart sahibi (zorunlu)
+	req.SetCardNumber("4155650100416111") // Kart numarası (zorunlu)
+	req.SetCardExpiry("01", "25")         // Son kullanma tarihi - AA,YY (zorunlu)
+	req.SetCardCode("123")                // Kart arkasındaki 3 haneli numara (zorunlu)
+	req.SetAmount("1.00", "TRY")          // Satış tutarı ve para birimi (zorunlu)
 	req.SetLang(lang)
 
 	// Satış
@@ -62,17 +62,17 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	payfor "github.com/ozgur-soft/payfor.go/src"
+	payfor "github.com/ozgur-yalcin/payfor.go/src"
 )
 
 // Pos bilgileri
 const (
-	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
-	mbr      = "5"    // Kurum kodu
-	merchant = ""     // İşyeri numarası
-	username = ""     // Kullanıcı adı
-	password = ""     // Şifre
-	lang     = "TR"   // Dil
+	envmode  = "TEST"                    // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"                       // Kurum kodu
+	merchant = "085300000009704"         // İşyeri numarası
+	username = "QNB_API_KULLANICI_3DPAY" // Kullanıcı adı
+	password = "UcBN0"                   // Şifre
+	lang     = "TR"                      // Dil
 )
 
 func main() {
@@ -103,17 +103,17 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	payfor "github.com/ozgur-soft/payfor.go/src"
+	payfor "github.com/ozgur-yalcin/payfor.go/src"
 )
 
 // Pos bilgileri
 const (
-	envmode  = "PROD" // Çalışma ortamı (Production : "PROD" - Test : "TEST")
-	mbr      = "5"    // Kurum kodu
-	merchant = ""     // İşyeri numarası
-	username = ""     // Kullanıcı adı
-	password = ""     // Şifre
-	lang     = "TR"   // Dil
+	envmode  = "TEST"                    // Çalışma ortamı (Production : "PROD" - Test : "TEST")
+	mbr      = "5"                       // Kurum kodu
+	merchant = "085300000009704"         // İşyeri numarası
+	username = "QNB_API_KULLANICI_3DPAY" // Kullanıcı adı
+	password = "UcBN0"                   // Şifre
+	lang     = "TR"                      // Dil
 )
 
 func main() {
