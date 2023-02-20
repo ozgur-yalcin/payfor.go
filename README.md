@@ -1,5 +1,5 @@
-[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/payfor.go/blob/main/LICENSE.md)
-[![documentation](https://pkg.go.dev/badge/github.com/ozgur-soft/payfor.go)](https://pkg.go.dev/github.com/ozgur-soft/payfor.go/src)
+[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-yalcin/payfor.go/blob/main/LICENSE.md)
+[![documentation](https://pkg.go.dev/badge/github.com/ozgur-yalcin/payfor.go)](https://pkg.go.dev/github.com/ozgur-yalcin/payfor.go/src)
 
 # Payfor.go
 QNB Finansbank (PayFor) POS API with golang
