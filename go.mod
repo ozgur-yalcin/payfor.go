@@ -1,3 +1,3 @@
-module github.com/ozgur-soft/payfor.go
+module github.com/ozgur-yalcin/payfor.go
 
 go 1.18
