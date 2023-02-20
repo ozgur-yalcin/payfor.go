@@ -273,16 +273,10 @@ func (api *API) Transaction(ctx context.Context, req *Request) (res Response, er
 	if err := decoder.Decode(&res); err != nil {
 		return res, err
 	}
-	if code, err := strconv.Atoi(res.ProcReturnCode); err == nil {
-		switch code {
-		case 0:
-			return res, nil
-		default:
-			return res, errors.New(res.ErrMsg)
-		}
-	} else {
-		return res, errors.New(res.ErrMsg)
+	if code, err := strconv.Atoi(res.ProcReturnCode); err == nil && code == 0 {
+		return res, nil
 	}
+	return res, errors.New(res.ErrMsg)
 }
 
 func (api *API) Transaction3D(ctx context.Context, req *Request) (res string, err error) {
